@@ -6,6 +6,8 @@ using Microsoft.IdentityModel.Tokens;
 using SchedulingSystemAPI.Data;
 using SchedulingSystemAPI.Repositories;
 using SchedulingSystemAPI.Repositories.Interfaces;
+using SchedulingSystemAPI.Services;
+using SchedulingSystemAPI.Services.Interfaces;
 
 DotEnv.Load();
 
@@ -50,6 +52,13 @@ builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
 builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
 builder.Services.AddScoped<IAvailableSlotRepository, AvailableSlotRepository>();
 
+// Services
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IServiceService, ServiceService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
+builder.Services.AddScoped<IAvailableSlotService, AvailableSlotService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -59,11 +68,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
 app.UseAuthentication();
-
+app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
