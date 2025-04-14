@@ -15,7 +15,9 @@ connectionString = connectionString
     .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "");
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(connectionString));
+// Configuração para usar PostgreSQL
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseNpgsql(connectionString));
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
