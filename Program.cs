@@ -76,6 +76,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ??
                 throw new InvalidOperationException("Jwt:Key não configurada")))
         };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var authHeader = context.Request.Headers.Authorization.FirstOrDefault();
+
+                if (!string.IsNullOrEmpty(authHeader) && !authHeader.StartsWith("Bearer "))
+                {
+                    context.Token = authHeader.Trim();
+                    Console.WriteLine("Token fornecido sem 'Bearer', adicionado automaticamente");
+                }
+
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddAuthorization();
