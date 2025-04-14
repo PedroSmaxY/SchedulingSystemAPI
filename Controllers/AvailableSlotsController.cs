@@ -7,14 +7,9 @@ namespace SchedulingSystemAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AvailableSlotsController : ControllerBase
+    public class AvailableSlotsController(IAvailableSlotService availableSlotService) : ControllerBase
     {
-        private readonly IAvailableSlotService _availableSlotService;
-
-        public AvailableSlotsController(IAvailableSlotService availableSlotService)
-        {
-            _availableSlotService = availableSlotService;
-        }
+        private readonly IAvailableSlotService _availableSlotService = availableSlotService;
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AvailableSlotDto>>> GetAll()

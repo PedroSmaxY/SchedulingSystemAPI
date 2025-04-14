@@ -9,14 +9,9 @@ namespace SchedulingSystemAPI.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    public class AppointmentsController : ControllerBase
+    public class AppointmentsController(IAppointmentService appointmentService) : ControllerBase
     {
-        private readonly IAppointmentService _appointmentService;
-
-        public AppointmentsController(IAppointmentService appointmentService)
-        {
-            _appointmentService = appointmentService;
-        }
+        private readonly IAppointmentService _appointmentService = appointmentService;
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
