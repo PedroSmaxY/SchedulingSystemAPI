@@ -49,6 +49,22 @@ namespace SchedulingSystemAPI.Controllers
             }
         }
 
+        [HttpPost("admin")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult<UserDto>> CreateAdmin(CreateUserDto createUserDto)
+        {
+            try
+            {
+                createUserDto.Role = Models.Enums.Role.Admin;
+                var user = await _userService.CreateAsync(createUserDto);
+                return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut("{id:int}")]
         public async Task<ActionResult<UserDto>> Update(int id, UpdateUserDto updateUserDto)
         {
