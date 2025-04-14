@@ -4,6 +4,18 @@
 
 SchedulingSystemAPI is a comprehensive RESTful API for appointment management. Built with ASP.NET Core and Entity Framework Core, this API provides a complete solution for managing users, services, availability slots, and appointments.
 
+- 🔐 JWT authentication & role-based access
+- 📅 Complete appointment scheduling workflow
+- ⏰ Flexible availability management
+- 🐳 Ready-to-run Docker configuration
+- 📝 Comprehensive API documentation with Swagger UI
+
+## Quick Start
+
+```bash
+docker-compose up --build
+
+
 ## Technologies Used
 
 - **ASP.NET Core 9.0**
@@ -26,22 +38,24 @@ SchedulingSystemAPI is a comprehensive RESTful API for appointment management. B
 ## Project Structure
 
 ```
+
 SchedulingSystemAPI/
 │
-├── Controllers/           # API endpoints
-├── Data/                  # Database configuration
-├── DTOs/                  # Data Transfer Objects
-├── Helpers/               # Utility classes
-├── Middleware/            # Custom middleware
-├── Models/                # Domain models
-├── Repositories/          # Data access layer
-├── Services/              # Business logic
-├── Validators/            # Input validation
+├── Controllers/ # API endpoints
+├── Data/ # Database configuration
+├── DTOs/ # Data Transfer Objects
+├── Helpers/ # Utility classes
+├── Middleware/ # Custom middleware
+├── Models/ # Domain models
+├── Repositories/ # Data access layer
+├── Services/ # Business logic
+├── Validators/ # Input validation
 │
-├── docker-compose.yml     # Container orchestration
-├── Dockerfile             # Container definition
-└── docker-entrypoint.sh   # Container startup script
-```
+├── docker-compose.yml # Container orchestration
+├── Dockerfile # Container definition
+└── docker-entrypoint.sh # Container startup script
+
+````
 
 ## Getting Started
 
@@ -56,7 +70,7 @@ SchedulingSystemAPI/
    ```bash
    git clone https://github.com/yourusername/SchedulingSystemAPI.git
    cd SchedulingSystemAPI
-   ```
+````
 
 2. **Launch with Docker Compose**
 
