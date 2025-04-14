@@ -18,9 +18,12 @@ namespace SchedulingSystemAPI.Models
         [StringLength(500)]
         public string? Description { get; set; }
 
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        public bool IsActive { get; set; } = true;
 
         public Service(string name, int duration, string? description)
         {
