@@ -2,8 +2,8 @@ namespace SchedulingSystemAPI.Models.Enums
 {
     public enum Role
     {
-        Admin,
-        Client
+        Client = 1,
+        Admin = 2
     }
 
 }
