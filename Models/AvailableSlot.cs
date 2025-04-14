@@ -19,7 +19,6 @@ namespace SchedulingSystemAPI.Models
 
         public int? AppointmentId { get; set; }
 
-        [ForeignKey("AppointmentId")]
         public Appointment? Appointment { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
