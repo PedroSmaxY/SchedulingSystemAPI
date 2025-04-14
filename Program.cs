@@ -84,21 +84,32 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtIssuer,
             ValidAudience = jwtAudience,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            RequireSignedTokens = true,
+            ValidAlgorithms = [SecurityAlgorithms.HmacSha256]
         };
 
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context =>
+    {
+        var authHeader = context.Request.Headers.Authorization.FirstOrDefault();
+        if (!string.IsNullOrEmpty(authHeader) && !authHeader.StartsWith("Bearer "))
+        {
+            context.Token = authHeader.Trim();
+            Console.WriteLine("Token fornecido sem 'Bearer', adicionado automaticamente");
+        }
+
+        return Task.CompletedTask;
+    },
+            OnTokenValidated = context =>
             {
-                var authHeader = context.Request.Headers.Authorization.FirstOrDefault();
-
-                if (!string.IsNullOrEmpty(authHeader) && !authHeader.StartsWith("Bearer "))
-                {
-                    context.Token = authHeader.Trim();
-                    Console.WriteLine("Token fornecido sem 'Bearer', adicionado automaticamente");
-                }
-
+                Console.WriteLine("Token validado com sucesso!");
+                var claims = context.Principal?.Claims.Select(c => $"{c.Type}: {c.Value}");
+                return Task.CompletedTask;
+            },
+            OnAuthenticationFailed = context =>
+            {
                 return Task.CompletedTask;
             }
         };
