@@ -64,17 +64,27 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        var jwtKey = Environment.GetEnvironmentVariable("JWT_KEY")
+            ?? builder.Configuration["Jwt:Key"]
+            ?? throw new InvalidOperationException("JWT key não configurada");
+
+        var jwtIssuer = Environment.GetEnvironmentVariable("JWT_ISSUER")
+            ?? builder.Configuration["Jwt:Issuer"]
+            ?? "SchedulingAPI";
+
+        var jwtAudience = Environment.GetEnvironmentVariable("JWT_AUDIENCE")
+            ?? builder.Configuration["Jwt:Audience"]
+            ?? "SchedulingAPIClients";
+
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            ValidIssuer = builder.Configuration["Jwt:Issuer"],
-            ValidAudience = builder.Configuration["Jwt:Audience"],
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ??
-                throw new InvalidOperationException("Jwt:Key não configurada")))
+            ValidIssuer = jwtIssuer,
+            ValidAudience = jwtAudience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
         };
 
         options.Events = new JwtBearerEvents
