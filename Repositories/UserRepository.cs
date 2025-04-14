@@ -22,6 +22,13 @@ namespace SchedulingSystemAPI.Repositories
             return await _context.Users.FindAsync(id);
         }
 
+        public async Task<User?> GetActiveByIdAsync(int id)
+        {
+            return await _context.Users
+                .Where(u => u.Id == id && u.IsActive)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<User?> GetByEmailAsync(string email)
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
@@ -44,7 +51,10 @@ namespace SchedulingSystemAPI.Repositories
             var user = await GetByIdAsync(id);
             if (user != null)
             {
-                _context.Users.Remove(user);
+                user.IsActive = false;
+                user.UpdatedAt = DateTime.UtcNow;
+
+                _context.Users.Update(user);
                 await _context.SaveChangesAsync();
             }
         }

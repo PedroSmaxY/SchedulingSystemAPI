@@ -6,6 +6,7 @@ namespace SchedulingSystemAPI.Repositories.Interfaces
     {
         Task<IEnumerable<User>> GetAllAsync(bool includeInactive = false);
         Task<User?> GetByIdAsync(int id);
+        Task<User?> GetActiveByIdAsync(int id);
         Task<User?> GetByEmailAsync(string email);
         Task AddAsync(User user);
         Task UpdateAsync(User user);
