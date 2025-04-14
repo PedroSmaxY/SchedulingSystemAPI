@@ -1,6 +1,8 @@
 using dotenv.net;
 using Microsoft.EntityFrameworkCore;
 using SchedulingSystemAPI.Data;
+using SchedulingSystemAPI.Repositories;
+using SchedulingSystemAPI.Repositories.Interfaces;
 
 DotEnv.Load();
 
@@ -15,10 +17,15 @@ connectionString = connectionString
     .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "");
 
 // Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString));
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IServiceRepository, ServiceRepository>();
+builder.Services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+builder.Services.AddScoped<IAvailableSlotRepository, AvailableSlotRepository>();
 
 var app = builder.Build();
 
