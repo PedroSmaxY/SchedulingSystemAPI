@@ -134,6 +134,34 @@ app.UseAuthorization();
 app.UseGlobalExceptionHandler();
 app.MapControllers();
 
+
+if (args.Contains("--apply-migrations"))
+{
+    try
+    {
+        using var scope = app.Services.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+
+        Console.WriteLine("Aplicando migrações via código...");
+        dbContext.Database.Migrate();
+        Console.WriteLine("Migrações aplicadas com sucesso!");
+
+        Console.WriteLine("Inicializando dados iniciais...");
+        await DbInitializer.InitializeAsync(app.Services);
+        Console.WriteLine("Dados iniciais carregados com sucesso!");
+
+        return;
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"ERRO AO APLICAR MIGRAÇÕES: {ex.Message}");
+        Console.WriteLine(ex.StackTrace);
+        Environment.Exit(1);
+        return;
+    }
+}
+
+
 await DbInitializer.InitializeAsync(app.Services);
 
 app.Run();
