@@ -34,8 +34,10 @@ namespace SchedulingSystemAPI.Controllers
         {
             try
             {
+                createUserDto.Role = Models.Enums.Role.Client;
+
                 var user = await _authService.RegisterAsync(createUserDto);
-                return CreatedAtAction(nameof(Register), user);
+                return CreatedAtAction("GetById", "Users", new { id = user.Id }, user);
             }
             catch (InvalidOperationException ex)
             {
