@@ -10,12 +10,6 @@ SchedulingSystemAPI is a comprehensive RESTful API for appointment management. B
 - 🐳 Ready-to-run Docker configuration
 - 📝 Comprehensive API documentation with Swagger UI
 
-## Quick Start
-
-```bash
-docker-compose up --build
-
-
 ## Technologies Used
 
 - **ASP.NET Core 9.0**
@@ -55,7 +49,7 @@ SchedulingSystemAPI/
 ├── Dockerfile # Container definition
 └── docker-entrypoint.sh # Container startup script
 
-````
+```
 
 ## Getting Started
 
@@ -70,7 +64,7 @@ SchedulingSystemAPI/
    ```bash
    git clone https://github.com/yourusername/SchedulingSystemAPI.git
    cd SchedulingSystemAPI
-````
+   ```
 
 2. **Launch with Docker Compose**
 
