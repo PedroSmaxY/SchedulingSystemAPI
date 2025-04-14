@@ -55,3 +55,4 @@ nunit-*.xml
 
 # Removing dotenv
 .env
+.fake
