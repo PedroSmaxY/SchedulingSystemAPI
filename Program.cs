@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using SchedulingSystemAPI.Data;
+using SchedulingSystemAPI.Helpers;
 using SchedulingSystemAPI.Middleware;
 using SchedulingSystemAPI.Repositories;
 using SchedulingSystemAPI.Repositories.Interfaces;
@@ -106,5 +107,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseGlobalExceptionHandler();
 app.MapControllers();
+
+await DbInitializer.InitializeAsync(app.Services);
 
 app.Run();
