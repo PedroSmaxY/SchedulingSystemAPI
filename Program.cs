@@ -11,11 +11,10 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 connectionString = connectionString
     .Replace("${DB_SERVER}", Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost")
     .Replace("${DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME") ?? "scheduling_system_db")
-    .Replace("${DB_USER}", Environment.GetEnvironmentVariable("DB_USER") ?? "root")
+    .Replace("${DB_USER}", Environment.GetEnvironmentVariable("DB_USER") ?? "postgres")
     .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "");
 
 // Add services to the container.
-// Configuração para usar PostgreSQL
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
 builder.Services.AddControllers();
