@@ -1,9 +1,22 @@
+using dotenv.net;
+using Microsoft.EntityFrameworkCore;
+using SchedulingSystemAPI.Data;
+
+DotEnv.Load();
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? "";
 
+connectionString = connectionString
+    .Replace("${DB_SERVER}", Environment.GetEnvironmentVariable("DB_SERVER") ?? "localhost")
+    .Replace("${DB_NAME}", Environment.GetEnvironmentVariable("DB_NAME") ?? "scheduling_system_db")
+    .Replace("${DB_USER}", Environment.GetEnvironmentVariable("DB_USER") ?? "root")
+    .Replace("${DB_PASSWORD}", Environment.GetEnvironmentVariable("DB_PASSWORD") ?? "");
+
+// Add services to the container.
+builder.Services.AddDbContext<AppDbContext>(options => options.UseMySQL(connectionString));
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 var app = builder.Build();
